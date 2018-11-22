@@ -59,14 +59,12 @@ public class Menu implements ActionListener, ChangeListener {
 		
 		boxes[0] = Box.createVerticalBox();		
 		boxes[1] = Box.createHorizontalBox();		
-
 				
 		Font fonte = new Font("Arial", Font.BOLD, 26); //Define fonte e tamanho
 		JLabel texto = new JLabel("Conversor GeoGebra para Matlab");
 		texto.setHorizontalAlignment(SwingConstants.CENTER);
 		texto.setFont(fonte); //Passa a conf de fonte para o texto	
 		c.add(texto, BorderLayout.NORTH); //Adiciona o texto ao frame
-		
 		
 		botao = new JButton("Converter"); //cria e define nome do botao
 		botao.addActionListener(this); //chama o metodo de execução do botao
@@ -78,13 +76,11 @@ public class Menu implements ActionListener, ChangeListener {
 		entrada.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		entrada.setSize(600,600);		
 		
-		
 		saida = new JTextArea();
 		saida.setLineWrap(true); // configura mudan¸ca autom´atica de linha
 		saida.setWrapStyleWord(true); // determina que as mudan¸ca de linha seja definida pelas palavras					
 		saida.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		saida.setSize(600,600);
-		
 		
 		cor = new JRadioButton[6];
 		cor[0] = new JRadioButton("Azul");
@@ -102,8 +98,6 @@ public class Menu implements ActionListener, ChangeListener {
 		
 		paletaCores = new JColorChooser();
 		paletaCores.setEnabled(false);
-		
-		paletaCores.setSize(50, 10); // nao ta funcionando!!!!!!!!!!!!!!!!
 		
 		boxes[0].add(paletaCores);
 		
@@ -125,7 +119,6 @@ public class Menu implements ActionListener, ChangeListener {
             }            
         }
         
-		
 		onlyOne = new ButtonGroup();
 		onlyOne.add(cor[0]);
 		onlyOne.add(cor[1]);
@@ -141,7 +134,6 @@ public class Menu implements ActionListener, ChangeListener {
 		cor[3].addItemListener(trat);
 		cor[4].addItemListener(trat);
 		cor[5].addItemListener(trat);
-		
 				
 		boxes[1].add(new JScrollPane(entrada, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)); //coloca a barra de rolagem e adiciona ao container
 		
@@ -158,9 +150,7 @@ public class Menu implements ActionListener, ChangeListener {
 		frame.setVisible(true); //para aparecer a janela
 	}
 	
-	
-	public class TratadorRadioButton implements ItemListener {
-				
+	public class TratadorRadioButton implements ItemListener {				
 		public void itemStateChanged(ItemEvent e) {
 			if(e.getSource()==cor[0]) {
 				corSaida = ",'b'";
@@ -184,19 +174,12 @@ public class Menu implements ActionListener, ChangeListener {
 			else if(e.getSource()==cor[5]) {
 				paletaCores.setEnabled(true);				
 				corSaida = ",["+ red/255 +" "+ green/255 +" "+ blue/255 +"]";
-				
-				
 			}
-			
 		}
-		
 	}
 	
-	
-	
-	
-	public void actionPerformed(ActionEvent e) { //executa o botao!!!!!!!!!!!!!!!!		
-		String aux = (String) entrada.getText(); //passa o texto não convertido da jtextarea para uma string para a converção
+	public void actionPerformed(ActionEvent e) { //executa o botao
+		String aux = (String) entrada.getText(); //passa o texto não convertido da jtextarea para uma string para a conversão
 		
 		if (aux.length()==0) //testa se o aux tem texto, senao tiver retorna void
 			return;
@@ -211,6 +194,7 @@ public class Menu implements ActionListener, ChangeListener {
 		recebe[3] = ' ';
 		recebe[4] = '[';	
 		
+		//DEBUG
 		//System.out.println(recebe);
 		//System.out.println(recebe.length);
 		
@@ -229,7 +213,6 @@ public class Menu implements ActionListener, ChangeListener {
 				i++;
 		} while(aux.length()!=i);
 		
-		
 		i = 5;		
 		while(recebe[i]!=',') { //coloca o primeiro valor no ultimo, para fechar a imagem
 			recebe[j] = recebe[i];
@@ -239,13 +222,11 @@ public class Menu implements ActionListener, ChangeListener {
 		recebe[j] = ';';
 		j++;
 		
-		
 		// parte Y
 		i = 0;
 		do {			
 			if(aux.charAt(i)==',') {
 				i+=2;
-				//System.out.println(aux.charAt(i));
 				while (aux.charAt(i)!=')') {
 					recebe[j] = aux.charAt(i);
 					i++;					
@@ -272,11 +253,6 @@ public class Menu implements ActionListener, ChangeListener {
 				i++;
 		} while(true);
 		
-		
-				
-		//System.out.println(recebe);
-		
-		
 				
 		String sai = new String(recebe); //passa o array de char para uma string	
 		sai = sai.trim(); //exclui os espaços em no inicio e no fim da string
@@ -294,19 +270,15 @@ public class Menu implements ActionListener, ChangeListener {
 		
 		sai = sai.concat("\nA=O*A;");
 		sai = sai.concat("\nfill(A(1,:), A(2,:)" +corSaida+ ")");
-		
 				
 		saida.setText(sai); //passa o texto convertido da string para a jtextarea de saida
-		
 	}
-	
 	
 	public static void main(String[] args) {		
 		
 		new Menu();
 		
 	}
-
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
@@ -318,6 +290,4 @@ public class Menu implements ActionListener, ChangeListener {
 		System.out.println(" "+ red +" "+ green +" "+ blue);
 		corSaida = ",["+ red/255 +" "+ green/255 +" "+ blue/255 +"]";
 	}
-
-
 }
